@@ -91,6 +91,7 @@ pipeline {
         aborted {
             script{
                 currentBuild.description = "\n 构建取消!"
+                tools.PrintMes("Build is aborted","yellow")
             }
         }
     }
