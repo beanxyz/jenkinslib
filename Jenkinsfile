@@ -32,44 +32,41 @@ pipeline {
                         println('获取代码')
                         tools.PrintMes("获取代码",'green')
                         println("${test}")
-                        
+
                         input id: 'Test', message: '我们是否要继续？', ok: '是，继续吧！', parameters: [choice(choices: ['a', 'b'], description: '', name: 'test1')], submitter: 'lizeyang,admin'
                     }
                 }
             }
         }
 
-        stage("01"){
-            failFast true
-            parallel {
-        
-                //构建
-                stage("Build"){
-                    steps{
-                        timeout(time:20, unit:"MINUTES"){
-                            script{
-                                println('应用打包')
-                                tools.PrintMes("应用打包",'green')
-                            
-                            }
-                        }
+
+
+        //构建
+        stage("Build"){
+            steps{
+                timeout(time:20, unit:"MINUTES"){
+                    script{
+                        println('应用打包')
+                        tools.PrintMes("应用打包",'green')
+
                     }
                 }
-        
-                //代码扫描
-                stage("CodeScan"){
-                    steps{
-                        timeout(time:30, unit:"MINUTES"){
-                            script{
-                                print("代码扫描")
-                                tools.PrintMes("代码扫描",'green')
-                            }
-                        }
+            }
+        }
+
+        //代码扫描
+        stage("CodeScan"){
+            steps{
+                timeout(time:30, unit:"MINUTES"){
+                    script{
+                        print("代码扫描")
+                        tools.PrintMes("代码扫描",'green')
                     }
                 }
             }
         }
     }
+
 
     //构建后操作
     post {
@@ -81,19 +78,19 @@ pipeline {
 
         success {
             script{
-                currentBuild.description = "\n 构建成功!" 
+                currentBuild.description = "\n 构建成功!"
             }
         }
 
         failure {
             script{
-                currentBuild.description = "\n 构建失败!" 
+                currentBuild.description = "\n 构建失败!"
             }
         }
 
         aborted {
             script{
-                currentBuild.description = "\n 构建取消!" 
+                currentBuild.description = "\n 构建取消!"
             }
         }
     }
